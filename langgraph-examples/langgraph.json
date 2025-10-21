@@ -1,0 +1,7 @@
+{
+    "dependencies": ["."],
+    "graphs": {
+      "agent": "./quick_start_docs.py:agent"
+    },
+    "env": ".env"
+  }
