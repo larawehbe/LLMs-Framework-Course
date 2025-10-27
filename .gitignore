@@ -2,6 +2,9 @@
 __pycache__/
 *.py[codz]
 *$py.class
+mcp-live-coding/
+agno-live-coding/
+langgraph-live-coding/
 
 # C extensions
 *.so

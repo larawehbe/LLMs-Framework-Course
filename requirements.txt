@@ -1,0 +1,16 @@
+mcp
+langchain
+openai
+fastapi
+uvicorn
+agno
+langchain-mcp-adapters
+agno
+langchain-openai
+langgraph
+fastapi-cli
+yfinance    
+pinecone
+pdfplumber
+pyPDF2
+imagehash

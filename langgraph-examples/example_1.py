@@ -16,10 +16,22 @@ class State(TypedDict):
     text: str  # Stores the original input text
     classification: str  # Represents the classification result (e.g., category label)
     entities: List[str]  # Holds a list of extracted entities (e.g., named entities)
+    custom: bool
     summary: str  # Stores a summarized version of the text
 
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
+from typing import Literal
+
+
+def should_continue(state: State) -> Literal["custom_node", END]:
+    """Decide if we should continue the loop or stop based upon whether the LLM made a tool call"""
+
+    classification = state["classification"]
+
+    if classification != "News":
+        return END
+    return 'custom_node'
 
 def classification_node(state: State):
    """
@@ -99,15 +111,27 @@ def summarize_node(state: State):
     return {"summary": response.content}
 
 
+def custom_node(state: State):
+    # Custom processing logic can be implemented here
+    # For demonstration, we'll just return an empty dictionary
+    print("Custom node executed.")
+    message = state["text"]
+    classification = state["classification"]
+    print("You are here because the conditional edge is executed!")
+    print(f"Message: {message}, Classification: {classification}")
+    return {"custon": True}
+
 workflow = StateGraph(State)
 
 # Add nodes to the graph
 workflow.add_node("classification_node", classification_node)
 workflow.add_node("entity_extraction", entity_extraction_node)
 workflow.add_node("summarization", summarize_node)
+workflow.add_node("custom_node", custom_node)
 
 # Add edges to the graph
 workflow.set_entry_point("classification_node") # Set the entry point of the graph
+workflow.add_conditional_edges("classification_node", should_continue, ["custom_node", END])
 workflow.add_edge("classification_node", "entity_extraction")
 workflow.add_edge("entity_extraction", "summarization")
 workflow.add_edge("summarization", END)
@@ -137,3 +161,5 @@ print("\nEntities:", result["entities"])
 
 # - The generated summary of the text
 print("\nSummary:", result["summary"])
+
+print("\nCustom:", result.get("custom", False))
