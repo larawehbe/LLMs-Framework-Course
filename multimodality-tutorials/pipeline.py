@@ -14,7 +14,7 @@ import pinecone
 from pinecone import Pinecone, ServerlessSpec
 
 # Import chunking functions from previous code
-from ingest_data import chunk_pdf_visuals_improved, chunk_pdf_text, chunk_pdf_tables
+from ingest_data import chunk_pdf_visuals_improved, chunk_pdf_text
 
 class CompleteRAGPipeline:
     """
@@ -76,10 +76,6 @@ class CompleteRAGPipeline:
         
         
         print(f"\n✅ Total chunks: {len(all_chunks)}")
-        print(f"   - Text: {sum(1 for c in all_chunks if c['metadata'].get('content_type') == 'text')}")
-        print(f"   - Tables: {sum(1 for c in all_chunks if c['metadata'].get('content_type') == 'table')}")
-        print(f"   - Visuals: {sum(1 for c in all_chunks if c['metadata'].get('content_type') in ['visual', 'image'])}\n")
-    
         
         return all_chunks
     
@@ -146,13 +142,6 @@ class CompleteRAGPipeline:
                 'content_type': chunk['metadata'].get('content_type', ''),
                 'doc_id': chunk['metadata'].get('doc_id', ''),
                 'page': chunk['metadata'].get('page', 0),
-                'section': chunk['metadata'].get('section', ''),
-                'lang': chunk['metadata'].get('lang', ''),
-                'region': chunk['metadata'].get('region', ''),
-                'type': chunk['metadata'].get('type', ''),
-                'version': chunk['metadata'].get('version', ''),
-                'ticket_id': chunk['metadata'].get('ticket_id', ''),
-                'faq_id': chunk['metadata'].get('faq_id', 0),
             }
             
             # Remove empty values

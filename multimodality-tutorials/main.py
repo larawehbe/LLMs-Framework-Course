@@ -17,32 +17,32 @@ if __name__ == "__main__":
 
     pdf_path = "data/"
 
-    docs = build_pdf_docs(pdf_path)
+    # docs = build_pdf_docs(pdf_path)
 
-    print(f"Found {len(docs)} PDF documents to ingest.")
-    try:
-        print("\nChunking all documents...")
-        chunks = pipeline.chunk_all_documents(docs)
-    except Exception as e:
-        print("Error during document chunking:", e)
-        raise e
+    # print(f"Found {len(docs)} PDF documents to ingest.")
+    # try:
+    #     print("\nChunking all documents...")
+    #     chunks = pipeline.chunk_all_documents(docs)
+    # except Exception as e:
+    #     print("Error during document chunking:", e)
+    #     raise e
 
-    try:
-        print("\nCreating embeddings for all chunks...")
-        chunks_with_embeddings = pipeline.create_embeddings(chunks)
-    except Exception as e:
-        print("Error during embedding creation:", e)
-        raise e
+    # try:
+    #     print("\nCreating embeddings for all chunks...")
+    #     chunks_with_embeddings = pipeline.create_embeddings(chunks)
+    # except Exception as e:
+    #     print("Error during embedding creation:", e)
+    #     raise e
 
-    try:
-        print("\nStoring chunks in vector database...")
-        pipeline.store_in_vectordb(chunks_with_embeddings)
-        print("="*70)
-        print("🎉 SETUP COMPLETE! Vector database is ready for queries.")
-        print("="*70)
-    except Exception as e:  
-        print("Error during storage in vector database:", e)
-        raise e
+    # try:
+    #     print("\nStoring chunks in vector database...")
+    #     pipeline.store_in_vectordb(chunks_with_embeddings)
+    #     print("="*70)
+    #     print("🎉 SETUP COMPLETE! Vector database is ready for queries.")
+    #     print("="*70)
+    # except Exception as e:  
+    #     print("Error during storage in vector database:", e)
+    #     raise e
     
 
 
